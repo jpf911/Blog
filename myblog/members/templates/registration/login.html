@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block style %}
+    {% load static %}
+    <link href={% static "myblog_app/css/signin.css" %} rel="stylesheet">
+{% endblock %}
+{% block title %} Login {% endblock %}
+{% load static %}
+{% block content %}
+    <div class="form-group">
+        <main class="form-signin">
+            <img class="mb-4" src="{% static 'myblog_app/images/brain.png' %}" alt="" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="id_username" placeholder="Username" name="username"
+                           required="">
+                    <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="id_password" placeholder="Password" name="password"
+                           required="">
+                    <label for="floatingPassword">Password</label>
+                </div>
+                <br>
+                {% if form.error %}
+                    <div class="alert alert-danger" role="alert">
+                        <p>{{ error }}</p>
+                    </div>
+                    <br>
+                {% endif %}
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+            </form>
+            <br>
+            <div class="text-center">
+                Need an account? <a href="{% url 'register' %}">Sign Up here</a>
+                {#                <p class="mt-3 mb-3 text-muted">&copy; 2020–2021</p>#}
+            </div>
+        </main>
+    </div>
+{% endblock %}

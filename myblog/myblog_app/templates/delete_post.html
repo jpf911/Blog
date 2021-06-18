@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block style %}
+    {% load static %}
+    <link href={% static "myblog_app/css/signin.css" %} rel="stylesheet">
+{% endblock %}
+{% block title %}Delete Post{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+            <h1>Delete Post</h1>
+            <h3>{{ post.title }}</h3>
+            <br>
+            <div class="form-group">
+            <main class="form-signin">
+            <form method="POST">
+                {% csrf_token %}
+                <strong>Are you sure?!</strong>
+                <br><br>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Delete Post!</button>
+            </form>
+            <br>
+            <a href="{% url 'home' %}" class="w-100 btn btn-lg btn-primary">Cancel</a>
+        {% endif %}
+    {% else %}
+        <h1>Page Not Found</h1>
+    {% endif %}
+</main>
+</div>
+{% endblock %}

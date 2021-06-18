@@ -1,0 +1,139 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+
+
+    <!-- Bootstrap CSS -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="{% static 'myblog_app/images/logo.png' %}">
+
+    <meta name="theme-color" content="#7952b3">
+
+
+    <style>
+
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <title>{% block title %}FishBook{% endblock %}</title>
+    {% block style %} {% endblock %}
+</head>
+
+<body class="text-center">
+<div
+        {% block center %}
+            class="container"
+        {% endblock %}
+>
+    <br>
+    {% block content %}
+
+    {% endblock %}
+</div>
+<nav class="navbar fixed-top navbar-expand-sm navbar navbar-dark bg-info">
+    <div class="container-fluid">
+        <a class="navbar-brand ps-5" href="{% url 'home' %}">
+            <img
+                    src="{% static 'myblog_app/images/logo.png' %}" width="60" height="60"
+                    class="d-inline-block align-left ">
+
+            <h3>FishBook</h3>
+        </a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'home' %}" role="button">
+                <img
+                        src="{% static 'myblog_app/images/home.png' %}"
+                        width="40" height="40"
+                        alt="Home">
+            </a>
+
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <ul class="navbar-nav ml-auto my-4 my-lg-1 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item dropdown dropstart pe-5">
+                    <a class="nav-link dropdown-toggle " href="#" id="navbarScrollingDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="True"> <b>{{ user.username|capfirst }}</b>   {% if user.profile.profile_pic %}
+                                    <img class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"
+                                         src="{{ user.profile.profile_pic.url }}"
+                                         width="40" height="40"
+                                         alt="Profile Picture">
+                                {% else %}
+                                    <img class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"
+                                         src="{% static 'myblog_app/images/user.png' %}"
+                                         width="40" height="40"
+                                         alt="Profile Picture">
+                                {% endif %}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dropstart " aria-labelledby="navbarScrollingDropdown">
+                        <li>
+                            <a class="dropdown-item " href="{% url 'posts' %}">
+                                {% if user.profile.profile_pic %}
+                                    <img class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"
+                                         src="{{ user.profile.profile_pic.url }}"
+                                         width="40" height="40"
+                                         alt="Profile Picture">
+                                {% else %}
+                                    <img class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"
+                                         src="{% static 'myblog_app/images/user.png' %}"
+                                         width="40" height="40"
+                                         alt="Profile Picture">
+                                {% endif %}
+                                <b>{{ user.username|capfirst }}</b>
+                                <br>
+                                <small>See Your Profile</small>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="{% url 'edit_profile' %}">Settings</a>
+                        </li>
+                        {% if user.is_superuser %}
+                            <li>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item" href="{% url 'category_list' %}">Categories</a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        {% else %}
+            <ul class="navbar-nav ml-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li><a class="nav-link active" href="{% url 'register' %}">Register</a></li>
+                <li class="nav-link active">|</li>
+                <li class="pe-5"><a class="nav-link active" href="{% url 'login' %}">Login</a></li>
+            </ul>
+
+        {% endif %}
+    </div>
+</nav>
+<br>
+
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+<!--
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+-->
+</body>
+</html>

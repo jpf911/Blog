@@ -1,0 +1,18 @@
+{% if user.is_authenticated %}
+    {% if user.if == profile.user.id %}
+        <h1>Edit Profile Page</h1>
+        <div class="form-group">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button>Update Profile Page</button>
+            </form>
+        </div>
+    {% else %}
+        <h1>Incorrect User</h1>
+    {% endif %}
+{% else %}
+    <h1>Page Not Found</h1>
+{% endif %}
+
+

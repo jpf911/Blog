@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %} Register {% endblock %}
+{% block style %}{% load static %}
+    <link href={% static "myblog_app/css/signin.css" %} rel="stylesheet"> {% endblock %}
+{% block content %}
+    <div class="form-group">
+        <main class="form-signin">
+            <div class="form-group">
+                <form method="POST">
+                    {% csrf_token %}
+                    <h1 class="h2 mb-3 fw-normal">Add Category</h1>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="id_name" placeholder="Category" name="name">
+                        <label for="floatingInput">Category</label>
+                    </div>
+                    <br><br>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Add</button>
+                </form>
+            </div>
+            <br>
+            <a href="{% url 'category_list' %}" class="w-100 btn btn-lg btn-primary">Cancel</a>
+        </main>
+    </div>
+{% endblock %}
+

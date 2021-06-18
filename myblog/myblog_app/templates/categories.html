@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ cats }}{% endblock %}
+{% block content %}
+    {% block center %}
+        class="container" align="center"
+    {% endblock %}
+    <div class="mt-5 pt-5 pt-auto">
+        {% if category_posts %}
+            <h1>{{ cats }}</h1>
+            <hr>
+            <br>
+            {% for post in category_posts %}
+                {% if post.status is False %}
+                    <div class="card text-center  card text-dark bg-light mb-3 shadow p-3 mb-5 bg-body rounded"
+                         style="width: 40rem;">
+                        <a href="{% url 'article-detail' post.id %}" class="card text-dark bg-light mb-3"
+                           style="text-decoration: none">
+                            <div class="card-body">
+                                <div class="card-header">
+                                    <h5 class="card-title">{{ post.title|title }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">
+                                        {#            <a href="{% url 'profile_page' post.author.profile.id %}" style="text-decoration: none">#}
+                                        {#                {% if post.author.profile.profile_pic %}#}
+                                        {#                    <img#}
+                                        {#                    class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"#}
+                                        {#                    src="{{ post.author.profile.profile_pic.url }}"#}
+                                        {#                    width="20" height="20"#}
+                                        {#                    alt="Profile Picture">#}
+                                        {#                {% else %}#}
+                                        {#                    <img#}
+                                        {#                    class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"#}
+                                        {#                    src="{% static 'myblog_app/images/user.png' %}"#}
+                                        {#                    width="20" height="20"#}
+                                        {#                    alt="Profile Picture">#}
+                                        {#                {% endif %}#}
+                                        {#                {{ post.author.username }}#}
+                                        {#            </a>#}
+
+                                        | {{ post.post_date|date:"M d, Y" }}
+                                        at {{ post.post_date|date:"P" }}</h6>
+                                    <small>-{{ post.category }}-</small>
+                                    <br>
+                                    <hr>
+                                    {% if post.body %}
+                                        <p class="card-text">
+                                            {{ post.body|safe }}
+                                        </p>
+                                        {% if post.header_image %}
+                                            <img src="{{ post.header_image.url }}" class="card-img-bottom" alt="image">
+                                        {% endif %}
+                                        <br>
+                                        <small>
+                                            {% if user.is_authenticated %}
+                                                {% if user.id == post.author.id %}
+                                                    <a href="{% url 'update_post' post.pk %}">Edit</a> |
+                                                    <a href="{% url 'delete_post' post.pk %}">Delete</a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </small>
+                                        <br><br>
+                                        <p>{{ post.total_likes }} <img src="{% static 'myblog_app/images/like.png' %}"
+                                                                       width="30" height="30"></p>
+                                        </div>
+                                    {% endif %}
+                            </div>
+                        </a>
+                        <br>
+                    </div>
+                {% endif %}
+                <br><br>
+            {% endfor %}
+            </div>
+        {% else %}
+            <h2>Sorry no post for this category...</h2>
+        {% endif %}
+{% endblock %}

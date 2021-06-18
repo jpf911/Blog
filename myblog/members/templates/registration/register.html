@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %} Register {% endblock %}
+{% block style %}{% load static %} <link href={% static "myblog_app/css/signin.css" %} rel="stylesheet"> {% endblock %}
+{% block content %}
+<div class="form-group">
+   <main class="form-signin">
+            <form method="POST">
+                  {% csrf_token %}
+                <img class="mb-4" src="{% static 'myblog_app/images/brain.png' %}" alt="" width="72" height="57">
+                <h1 class="h3 mb-3 fw-normal">Register</h1>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="id_username" placeholder="Username" name="username" required="">
+                    <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="id_first_name" placeholder="First Name" name="first_name" required="">
+                    <label for="floatingInput">First Name</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="id_last_name" placeholder="Last Name" name="last_name" required="">
+                    <label for="floatingInput">Last Name</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="id_email" placeholder="Email" name="email" required="">
+                    <label for="floatingInput">Email</label>
+                </div>
+                <br>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="id_password1" placeholder="Password" name="password1" required="">
+                    <label for="floatingPassword">Password</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="id_password2" placeholder="Confirm Password" name="password2" required="">
+                    <label for="floatingPassword">Confirm Password</label>
+                </div>
+                <br><br>
+
+                               <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+            </form>
+       <br>
+             <div class="text-center">
+                Already have an account? <a href="{% url 'login' %}">Sign In</a>
+                </div>
+        </main>
+</div>
+{% endblock %}

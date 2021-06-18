@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block style %}
+    {% load static %}
+    <link href={% static "myblog_app/css/signin.css" %} rel="stylesheet">
+{% endblock %}
+{% block title %}Update Profile{% endblock %}
+{% block content %}
+    <br>
+    {% if user.is_authenticated %}
+        {% if user.if == profile.user.id %}
+            <div class="form-group">
+                <main class="form-signin">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h1 class="h3 mb-3 fw-normal">Edit Profile</h1>
+                        <div class="image-upload">
+                            <label for="file-input">
+                                <img class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded " src="{% static 'myblog_app/images/brain.png' %}" alt="" width="200" height="150"/>
+                            </label>
+                        </div>
+{#                        <input type="file" name="header_image" accept="image/*" id="id_header_image">#}
+{#                                                <a href="{% url 'profile_page' %}"><img class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded " src="{% static 'myblog_app/images/brain.png' %}" alt="" width="200"#}
+{#                                                     height="150"></a>#}
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="id_username" placeholder="Username"
+                                   name="username" required="" value="{{ user.username }}">
+                            <label for="floatingInput">Username</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="id_first_name" placeholder="First Name"
+                                   name="first_name" required="" value="{{ user.first_name }}">
+                            <label for="floatingInput">First Name</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="id_last_name" placeholder="Last Name"
+                                   name="last_name" required="" value="{{ user.last_name }}">
+                            <label for="floatingInput">Last Name</label>
+                        </div>
+                        <br>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="id_email" placeholder="Email" name="email"
+                                   required="" value="{{ user.email }}">
+                            <label for="floatingInput">Email</label>
+                        </div>
+                        <br>
+                        <a class=" btn btn-lg  btn-primary" href="{% url 'change_pass' %}">Change Password</a>
+{#                        {{ form.as_p }}#}
+                        <button class="w-50 btn btn-lg btn-primary" type="submit">Update Profile</button>
+                    </form>
+
+                </main>
+            </div>
+        {% else %}
+            <h1>Incorrect User</h1>
+        {% endif %}
+    {% else %}
+        <h1>Page Not Found</h1>
+    {% endif %}
+{% endblock %}
+

@@ -1,0 +1,12 @@
+{% if user.is_authenticated %}
+    <h1>Comment on Post</h1>
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button>Add Comment</button>
+        </form>
+    </div>
+{% else %}
+    <h1>Page Not Found</h1>
+{% endif %}

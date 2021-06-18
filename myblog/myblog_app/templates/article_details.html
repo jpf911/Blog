@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %} Post {% endblock %}
+{% load static %}
+{% block content %}
+    {% block center %}
+        class="container" align="center"
+    {% endblock %}
+    <br><br>
+    <br><br>
+    <br>
+    <div class="card text-center  mt-5 pt-5 card text-dark bg-light mb-3 shadow p-3 mb-5 bg-body rounded"
+         style="width: 40rem;">
+        <h1>{{ post.title|title }}</h1>
+        <h6 class="card-subtitle mb-2 text-muted">
+            <a href="{% url 'profile_page' post.author.profile.id %}"
+               style="text-decoration: none">
+                {% if post.author.profile.profile_pic %}
+                    <img
+                            class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"
+                            src="{{ post.author.profile.profile_pic.url }}"
+                            width="20" height="20"
+                            alt="Profile Picture">
+                {% else %}
+                    <img
+                            class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"
+                            src="{% static 'myblog_app/images/user.png' %}"
+                            width="20" height="20"
+                            alt="Profile Picture">
+                {% endif %}
+                {{ post.author.username }}
+            </a>
+
+            | {{ post.post_date|date:"M d, Y" }}
+            at {{ post.post_date|date:"P" }}</h6>
+        <small>-{{ post.category }}-</small>
+        {% if user.is_authenticated %}
+            {% if user.id == post.author.id %}
+                <small>
+                    <a href="{% url 'update_post' post.pk %}">(Edit)</a>
+                    <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
+                </small>
+            {% endif %}
+        {% endif %}
+        <br>
+        <hr>
+        <h5>{{ post.body|safe }}</h5>
+        <br>
+        <br>
+        {% if post.header_image %}
+            <img src="{{ post.header_image.url }}" alt="image">
+        {% endif %}
+        <br>
+        <hr>
+        <br>
+        <p class="text-start ms-3 ps-3">{{ post.total_likes }} <img
+                src="{% static 'myblog_app/images/like.png' %}" width="20" height="20"> Likes</p>
+        {% if user.is_authenticated %}
+            <form action="{% url 'like_post' post.pk %}" method="POST">
+                {% csrf_token %}
+                {% if liked %}
+                    <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger">
+                        <img src="{% static 'myblog_app/images/dislike.png' %}" width="30" height="30" alt="Unlike">
+                        Unlike
+                    </button>
+                    <br>
+                {% else %}
+                    <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary"><img
+                            src="{% static 'myblog_app/images/like.png' %}" width="30" height="30" alt="Like"> Like
+                    </button>
+                    <br>
+                {% endif %}
+                <br>
+            </form>
+        {% else %}
+
+            <small><a href="{% url 'login' %}">Login</a>to Like and Comment on Post</small>
+            <br>
+            <h2>Comments</h2>
+            <br>
+            {% if post.comments %}
+                {% for comment in post.comments.all %}
+                    <strong>
+                        {{ comment.name }}
+                        {{ comment.date_added }}
+                    </strong>
+                    <br>
+                    {{ comment.body }}
+                    <br>
+                {% endfor %}
+                <hr>
+            {% endif %}
+
+        {% endif %}
+        <br>
+        <br>
+        <a href="add_comment" class="btn btn-primary">Add Comment</a>
+    </div>
+{% endblock %}
+

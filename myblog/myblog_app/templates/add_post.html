@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block style %}
+    {% load static %}
+    <link href={% static "myblog_app/css/signin.css" %} rel="stylesheet">
+{% endblock %}
+{% block title %}Add Post{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <br><br>
+        <div class="form-group">
+        <main class="form-signin">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1 class="h3 mb-3 fw-normal">Create Post</h1>
+            <hr>
+            <br>
+            {{ form.as_p }}
+{#            <div class="form-floating">#}
+{#                <input type="text" name="title" class="form-control" maxlength="255" required id="id_title">#}
+{#                <label for="id_title">Title</label>#}
+{#            </div>#}
+{#            <br>#}
+{#            <br>#}
+{#            <p class="text-start">Upload an image</p>#}
+{#            <input class="form-control form-control-sm" type="file" name="header_image" accept="image/*"#}
+{#                   id="header_image" placeholder="Upload Image">#}
+{#            <br>#}
+{#            <div class="form-floating">#}
+{#                <textarea class="form-control" style="height: 200px;max-height:200px;min-height: 200px " cols="40"#}
+{#                          id="id_body" name="body" rows="10" data-processed="0"#}
+{#                          data-config="{&quot;skin&quot;: &quot;moono-lisa&quot;, &quot;toolbar_Basic&quot;: [[&quot;Source&quot;, &quot;-&quot;, &quot;Bold&quot;, &quot;Italic&quot;]], &quot;toolbar_Full&quot;: [[&quot;Styles&quot;, &quot;Format&quot;, &quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;SpellChecker&quot;, &quot;Undo&quot;, &quot;Redo&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Smiley&quot;, &quot;SpecialChar&quot;], [&quot;Source&quot;]], &quot;toolbar&quot;: &quot;Full&quot;, &quot;height&quot;: 291, &quot;width&quot;: 835, &quot;filebrowserWindowWidth&quot;: 940, &quot;filebrowserWindowHeight&quot;: 725, &quot;language&quot;: &quot;en-us&quot;}"#}
+{#                          data-external-plugin-resources="[]" data-id="id_body" data-type="ckeditortype"></textarea>#}
+{#                <label for="id_body">Description</label>#}
+{#            </div>#}
+{#            <br>#}
+{#            <select name="category" id="id_category" value="{{ form.category }}"></select>#}
+{#            <br>#}
+{#            <div class="checkbox mb-3">#}
+{#                <p class="text-start">#}
+{#                    <input type="checkbox" value="remember-me" id="id_status" class="form-check-input"> <label#}
+{#                        for="id_status">Private</label>#}
+{#                </p>#}
+{#            </div>#}
+            <br>
+            <br>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Post</button>
+        </form>
+
+        <script>
+            var name = '{{ user.id }}'
+            document.getElementById('author_id').value = name;
+        </script>
+
+    {% else %}
+        <h1>Page Not Found</h1>
+    {% endif %}
+<br>
+<a href="{% url 'home' %}" class="w-100 btn btn-lg btn-primary">Cancel</a>
+</main>
+</div>
+{% endblock %}
+

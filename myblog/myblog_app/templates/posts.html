@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Posts{% endblock %}
+{% block content %}
+    {% block center %}
+        class="container" align="center"
+    {% endblock %}
+    <div class="mt-5 pt-5 pt-auto">
+            {% if user.profile.profile_pic %}
+                <img class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"
+                     src="{{ user.profile.profile_pic.url }}"
+                     width="400" height="400"
+                     alt="Profile Picture">
+            {% else %}
+                <img class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"
+                     src="{% static 'myblog_app/images/user.png' %}"
+                     width="300" height="300"
+                     alt="Profile Picture">
+            {% endif %}
+        <br>ee
+        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+        <br>
+        {% if user.profile.bio %}
+            <h4>{{ user.profile.bio }}</h4>
+        {% else %}
+            <h4>Add Bio</h4>
+        {% endif %}
+        <hr>
+        <br>
+        {% for post in object_list %}
+            {% if user.id == post.author.id %}
+                <div class="card text-center {% if post.status %}
+                        card text-dark bg-success mb-3 shadow p-3 mb-5 rounded {% else %} card text-dark bg-light mb-3 shadow p-3 mb-5 bg-body rounded
+                    {% endif %}" style="width: 40rem;">
+
+                    <a href="{% url 'article-detail' post.id %}"
+                       style="text-decoration: none">
+                        <div class="card-body {% if post.status %}
+                         bg-dark {% endif %}">
+                            <div class="card-header">
+                                <h5 class="card-title">{{ post.title|title }}</h5>
+                                <h6 class=" {% if post.status %} text-light {% else %}card-subtitle mb-2 text-muted{% endif %} ">
+{#                                    <a href="{% url 'profile_page' post.author.profile.id %}"#}
+{#                                       style="text-decoration: none">#}
+{#                                        {% if post.author.profile.profile_pic %}#}
+{#                                            <img#}
+{#                                                    class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"#}
+{#                                                    src="{{ post.author.profile.profile_pic.url }}"#}
+{#                                                    width="20" height="20"#}
+{#                                                    alt="Profile Picture">#}
+{#                                        {% else %}#}
+{#                                            <img#}
+{#                                                    class="rounded-circle shadow-sm p-1 mb-2 bg-body rounded"#}
+{#                                                    src="{% static 'myblog_app/images/user.png' %}"#}
+{#                                                    width="20" height="20"#}
+{#                                                    alt="Profile Picture">#}
+{#                                        {% endif %}#}
+{#                                        {{ post.author.username }}#}
+{#                                    </a>#}
+                                    | {{ post.post_date|date:"M d, Y" }}
+                                    at {{ post.post_date|date:"P" }}</h6>
+                                <small>-{{ post.category }}-</small>
+                                   {% if post.body %}
+                                    <br><br>
+                                    <hr>
+                                    <h6 class="card-text text-dark {% if post.status %} text-white {% endif %} ">
+                                        {{ post.body|safe }}
+                                    </h6>
+                                    <br>
+                                    {% if post.header_image %}
+                                        <img src="{{ post.header_image.url }}" class="card-img-bottom" alt="image">
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            {% if user.is_authenticated %}
+                                {% if user.id == post.author.id %}
+                                    <p class="{% if post.status %} text-white {% endif %}"><a
+                                            href="{% url 'update_post' post.pk %}">Edit</a> | <a
+                                            href="{% url 'delete_post' post.pk %}">Delete</a></p>
+
+                                {% endif %}
+                            {% endif %}
+                            <br>
+                            <br>
+                            <p class="{% if post.status %} text-white {% endif %}">{{ post.total_likes }}
+                                <img src="{% static 'myblog_app/images/like.png' %}" width="30" height="30"></p>
+                        </div>
+                    </a>
+                </div>
+                <br><br>
+
+            {% endif %}
+        {% endfor %}
+        {% if user.post.id is null %}
+            <div class="text-center">
+                <h2>Looks like you don't have any posts!</h2>
+                <br>
+                <a role="button" class="btn btn-primary" href="{% url 'add_post' %}">New Post</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

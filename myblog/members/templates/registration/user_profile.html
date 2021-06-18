@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} My Profile {% endblock %}
+{% load static %}
+{% block content %}
+    {% block center %}
+        class="container" align="center"
+    {% endblock %}
+    <br><br><br><br><br><br>
+    <h1>User Profile</h1>
+    {{ page_user }}
+{% endblock %}

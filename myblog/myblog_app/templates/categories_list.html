@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block style %}
+    {% load static %}
+    <link href={% static "myblog_app/css/signin.css" %} rel="stylesheet">
+{% endblock %}
+{% block title %}Categories{% endblock %}
+{% block content %}
+    <div class="form-group">
+        <main class="form-signin">
+            <h1 class="h2 mb-3 fw-normal">Categories</h1>
+            <hr>
+            <br>
+            {% for item in cat_menu_list %}
+                <h4><a href="{% url 'category' item|slugify %}">{{ item }}</a></h4>
+            {% endfor %}
+            <br>
+            {% if user.is_superuser %}
+                <hr>
+                <a class="w-100 btn btn-lg btn-primary" href="{% url 'add_category' %}">Add Category</a>
+            {% endif %}
+        </main>
+    </div>
+{% endblock %}
